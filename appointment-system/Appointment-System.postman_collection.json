@@ -1,0 +1,118 @@
+{
+	"info": {
+		"_postman_id": "77fb477d-93ee-400f-ae19-c53618b2f2da",
+		"name": "Appointment-System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37887534"
+	},
+	"item": [
+		{
+			"name": "http://localhost:5000/api/appointments/by-date?date=2025-03-23",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"date\": \"2025-03-23\"\r\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/appointments/by-date?date=2025-03-23",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"appointments",
+						"by-date"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2025-03-23"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/api/appointments/add",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n  \"doctorId\": \"65f1c29e4f1a2b3c4gfde6f7a\",\r\n  \"date\": \"2025-03-24\",\r\n  \"availableTimings\": {\r\n    \"morning\": [\r\n      \"8:00 AM\",\r\n      \"12:30 AM\"\r\n    ],\r\n    \"evening\": [\r\n      \"2:30 PM\",\r\n      \"9:00 PM\"\r\n    ]\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/appointments/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"appointments",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/api/patients/add",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n  \"firstName\": \"Alishba\",\r\n  \"lastName\": \"Shaikh\",\r\n  \"mobile\": \"1243658709\",\r\n  \"fileNumber\": \"BACA123\",\r\n  \"location\": \"New Delhi\",\r\n  \"dateOfBirth\": \"1998-02-06\",\r\n  \"gender\": \"Female\"\r\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/patients/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"patients",
+						"add"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

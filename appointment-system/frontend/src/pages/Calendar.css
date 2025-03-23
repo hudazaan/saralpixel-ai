@@ -1,0 +1,114 @@
+.doctors-dropdown { 
+    margin-top: 70px;
+    margin-bottom: 20px;
+    margin-left: 200px; 
+    margin-right: 20px;
+    width: 20%; 
+    padding: 28px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.doctors-dropdown h2 {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.doctor-select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    font-size: 14px; 
+    margin-bottom: 12px;
+}
+
+.calendar-board {   
+    margin-top: 70px;
+    margin-bottom: 20px;
+    margin-left: 20px; 
+    margin-right: 20px; 
+    width: 50%;
+    padding: 16px; 
+    border: 1px solid #ddd; 
+    background-color: #f9f9f9;
+} 
+
+.calendar-container {
+    display: flex;
+    flex: 1;
+    overflow: hidden;  
+    margin-left: 50px;
+    width: 100%;
+    padding: 20px;
+}
+
+.left-panel {
+    width: 78%; 
+    height: 20%; 
+    padding: 18px;
+    overflow-y: auto;
+}
+
+.date-navigation {
+    display: flex;
+    gap: 7px;
+    margin-bottom: 14px;
+}
+
+.date-button {
+    background-color: #e5e7eb;
+    padding: 10px 15px;
+    border-radius: 2px;
+    border: none;
+    cursor: pointer;
+}
+
+.date-button:hover {
+    background-color: #d1d5db;
+}
+
+.date-button.selected {
+    background-color: #609b62;
+    color: white;
+    border-color: #609b62;
+  }
+  
+
+.time-slots {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.slot-heading {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.slot-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.slot-button {
+    background-color: #e5e7eb;
+    padding: 10px 15px;
+    border-radius: 2px;
+    border: none;
+    cursor: pointer;
+}
+
+.slot-button:hover {
+    background-color: #d1d5db;
+}
+
+
+
+

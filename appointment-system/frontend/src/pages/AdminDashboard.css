@@ -1,0 +1,139 @@
+.admin-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.admin-content {
+    display: flex; 
+    justify-content: flex-start; 
+    align-items: flex-start; 
+    padding: 20px;
+    margin-top: 50px;
+}
+
+.admin-dashboard {
+    margin: 0;
+    width: 50%; 
+    margin-top: 70px; 
+    margin-bottom: 20px;
+    margin-left: 200px; 
+    padding: 25px; 
+    border: 1px solid #ddd;  
+    background-color: #f9f9f9;
+    
+} 
+
+.admin-dashboard h2 {
+    text-align: center;
+} 
+
+table {
+     width: 100%; 
+     border-collapse: collapse; 
+     margin-top: 30px; 
+     margin-bottom: 30px;
+} 
+
+th, td {
+     border: 1px solid #ddd; 
+     padding: 11px; 
+     text-align: center; 
+} 
+
+th {
+background-color: #609b62;
+color: white;
+} 
+
+input {
+   width: 90%; 
+   padding: 4px 4px 6px; 
+   border: 1px solid #ccc; 
+   border-radius: 3px; 
+}  
+
+.save-icon, .copy-icon { 
+    
+    gap: 8px;
+    justify-content: center;
+
+    cursor: pointer;
+    color: #4CAF50; 
+    transition: color 0.3s ease; 
+}
+
+.copy-icon {
+    color: #2196F3; 
+}
+
+.save-icon:hover {
+    color: #388E3C;
+}
+
+.copy-icon:hover {
+    color: #1976D2;
+}
+
+.add-patient-form {
+    background-color: #f9f9f9;
+    padding: 58px;
+    border: 1px solid #ddd; 
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    width: 20%; 
+    height: 68%; 
+    margin: 0;
+    margin-top: 70px; 
+    margin-bottom: 18px;
+    margin-left: 35px; 
+    margin-right: 20px; 
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    margin-bottom: 16px;
+}
+
+.input-field {
+    background-color: #f0f0f0;
+    padding: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 90%;
+}
+
+.gender-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.gender-section label {
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+    font-size: 14px;
+    color: #333;
+}
+
+.gender-section input[type="radio"] {
+    margin: 0; 
+}
+
+.save-button {
+    background-color: #609b62;
+    color: white;
+    padding: 10px 28px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer; 
+    margin-top: 24px;
+    margin-bottom: 20px;
+}
+
+.save-button:hover {
+    background-color: #0056b3; 
+}

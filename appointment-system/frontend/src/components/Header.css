@@ -1,0 +1,73 @@
+.admin-header {
+    position: fixed;
+    top: 0;
+    left: 90px;
+    width: calc(100% - 90px);;
+    height: 50px;
+    background-color: #3498db;
+    color: white;
+    padding: 8px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+   
+}
+
+.admin-header h1 {
+    font-size: 18px; 
+    margin: 0;
+    margin-left: 20px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 5px; 
+    margin-left: auto; 
+}
+
+.bck-btn {
+    display: inline-flex;
+    padding: 9px 3px; 
+    font-size: 11px; 
+    background-color: white; 
+    color: #3498db; 
+    border: 1px solid #3498db; 
+    border-radius: 5px; 
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+    width: 165px; 
+    margin-right: 60px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.bck-btn:hover {
+    background-color:  #2980b9; 
+    color: white;
+} 
+
+.admin-header input[type="text"] {
+    width: 80%; 
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+} 
+
+.admin-search-bar {
+    width: 980px; 
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc; 
+}
+
+.login-icon {
+    font-size: 12px;
+    cursor: pointer;
+    color: white;
+    margin-right: 120px;
+    margin-left: 55px;
+}
