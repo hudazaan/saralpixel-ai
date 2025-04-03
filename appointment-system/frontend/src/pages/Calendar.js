@@ -16,11 +16,11 @@ const Calendar = () => {
      };
 
      const days = [                                                                                //available days list-> stated 
-        "Friday 21", "Saturday 22", "Sunday 23", "Monday 24", "Tuesday 25", "Wednesday 26", "Thursday 27"
+        "Monday 24", "Tuesday 25", "Wednesday 26", "Thursday 27", "Friday 28", "Saturday 29", "Sunday 30"
     ];
     
      const [selectedDay, setSelectedDay] = useState(null);                                        //date index store
-     const [selectedDate, setSelectedDate] = useState("");                                       //date format to store in-> yyyy-mm-dd 
+     const [selectedDate, setSelectedDate] = useState("");                                       //date format to store in-> yyyy-mm-dd
      const [availableTimings, setAvailableTimings] = useState({                                  //available time morning-evening store-> initially empty 
        morning: [], 
        evening: [], 
@@ -69,7 +69,7 @@ const Calendar = () => {
                     <h2>Schedule Calendar</h2>
                        <div className="date-navigation">
                               {days.map((day, index) => (                                          //iterates over-> day string with its index in the array    
-                                 <button key={index} className={`date-button ${selectedDay === index ? "selected" : ""}`}                  {/* button for days->selectedDay matches the current index-> date highlighted */}
+                                 <button key={index} className={`date-button ${selectedDay === index ? "selected" : ""}`}                  /* button for days->selectedDay matches the current index-> date highlighted */
                                          onClick={() => {                                          //selected date index-> updates selectedDate-> extract date from date stirng(numeric part only)-> date object created-> converts back to format-> update/set selectedDate 
                                              handleDateClick(index); 
                                             const date = new Date(`2025-03-${day.split(" ")[1]}`);
