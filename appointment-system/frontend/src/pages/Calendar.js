@@ -5,6 +5,7 @@ import Sidebar from "../components/Sidebar";
 
 const Calendar = () => {
 
+     const [weekOffset, setWeekOffset] = useState(0); 
      const [selectedDoctor, setSelectedDoctor] = useState("");                                       //managing component state (selected doctor-> stated for tracking?)                                                                          
      const doctors = [
          { id: 1, name: "Dr. Ahmad" },
@@ -15,17 +16,50 @@ const Calendar = () => {
          setSelectedDoctor(e.target.value); 
      };
 
-     const days = [                                                                                //available days list-> stated 
-        "Monday 24", "Tuesday 25", "Wednesday 26", "Thursday 27", "Friday 28", "Saturday 29", "Sunday 30"
-    ];
-    
-     const [selectedDay, setSelectedDay] = useState(null);                                        //date index store
-     const [selectedDate, setSelectedDate] = useState("");                                       //date format to store in-> yyyy-mm-dd
-     const [availableTimings, setAvailableTimings] = useState({                                  //available time morning-evening store-> initially empty 
+    const getCurrentWeekDates = (offset = 0) => {
+        const today = new Date();
+        today.setDate(today.getDate() + (offset * 7)); 
+        const currentDay = today.getDay(); 
+        const startDate = new Date(today);
+        startDate.setDate(today.getDate() - currentDay + (currentDay === 0 ? -6 : 1)); 
+        const days = [];
+        const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        for (let i = 0; i < 7; i++) {
+          const date = new Date(startDate);
+          date.setDate(startDate.getDate() + i);
+          days.push({
+             name: dayNames[i],
+             date: date.toISOString().split("T")[0], 
+             display: `${dayNames[i]} ${date.getDate()}` 
+        });
+      }
+      return days;
+    };
+
+    const [days, setDays] = useState(getCurrentWeekDates(weekOffset));
+    useEffect(() => {
+      setDays(getCurrentWeekDates(weekOffset));
+    }, [weekOffset]);
+
+    const [selectedDay, setSelectedDay] = useState(null);                                        //date index store
+    const [selectedDate, setSelectedDate] = useState("");                                       //date format to store in-> yyyy-mm-dd
+    const [availableTimings, setAvailableTimings] = useState({                                  //available time morning-evening store-> initially empty 
        morning: [], 
        evening: [], 
      });
     
+   useEffect(() => {
+    const updateWeekOnMonday = () => {
+      const now = new Date();
+      if (now.getDay() === 1) { 
+        setWeekOffset(0); 
+      }
+    };
+    const interval = setInterval(updateWeekOnMonday, 86400000);
+    return () => clearInterval(interval);
+   }, []);
+
+
      useEffect(() => {                                                                           //fetching data on state change (selected date changes-> fetch appointment time from Api) 
        if (selectedDate) { 
          fetch(`http://localhost:5000/api/appointments/by-date?date=${selectedDate}`) 
@@ -40,8 +74,7 @@ const Calendar = () => {
 
      const handleDateClick = (index) => {                                                        //selected date index-> updated  
       setSelectedDay(index); 
-      const date = new Date(`2025-03-${days[index].split(" ")[1]}`);
-      setSelectedDate(date.toISOString().split("T")[0]);
+      setSelectedDate(days[index].date); 
     };
 
     return(
@@ -63,20 +96,25 @@ const Calendar = () => {
                     </select>
                 </div>
 
+
             <div className="calendar-board">
-                <div className="calendar-container">
+                <div className="week-navigation">
+                <button className="weekButton" onClick={() => setWeekOffset(prev => prev - 1)}>◀ Previous</button>
+                <span>Week of {new Date(days[0].date).toLocaleDateString()}</span>
+                <button className="weekButton" onClick={() => setWeekOffset(prev => prev + 1)}>Next ▶</button>
+            </div>
+
+                <div className="calendar-container">   
                     <div className="left-panel">
                     <h2>Schedule Calendar</h2>
                        <div className="date-navigation">
                               {days.map((day, index) => (                                          //iterates over-> day string with its index in the array    
                                  <button key={index} className={`date-button ${selectedDay === index ? "selected" : ""}`}                  /* button for days->selectedDay matches the current index-> date highlighted */
                                          onClick={() => {                                          //selected date index-> updates selectedDate-> extract date from date stirng(numeric part only)-> date object created-> converts back to format-> update/set selectedDate 
-                                             handleDateClick(index); 
-                                            const date = new Date(`2025-03-${day.split(" ")[1]}`);
-                                            setSelectedDate(date.toISOString().split("T")[0]);
+                                             handleDateClick(index);                                                                                   
                                          }}
                                  >
-                              {day}
+                              {day.display}
                                  </button>
                               ))}
                         </div>

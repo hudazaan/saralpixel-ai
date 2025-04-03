@@ -37,19 +37,51 @@
     background-color: #f9f9f9;
 } 
 
+.week-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+    padding: 12px 16px;
+    background-color: f9f9f9;
+    border-radius: 6px;
+    border: 1px solid #f9f9f9;
+    
+}
+
+.weekButton {
+    background-color: #e5e7eb;
+    padding: 4px 15px;
+    border-radius: 2px;
+    border: none;
+    cursor: pointer; 
+    margin-left: 12px;
+    margin-right: 16px;
+}
+
+.week-navigation span {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin: 0 15px;
+    flex-grow: 1;
+    text-align: center;
+}
+
 .calendar-container {
     display: flex;
     flex: 1;
     overflow: hidden;  
     margin-left: 50px;
+    margin-bottom: 45px;
     width: 100%;
-    padding: 20px;
+    padding: 10px;
 }
 
 .left-panel {
     width: 78%; 
     height: 20%; 
-    padding: 18px;
+    padding: 10px;
     overflow-y: auto;
 }
 
@@ -88,13 +120,23 @@
 .slot-heading {
     font-size: 1rem;
     font-weight: 600;
-    margin-bottom: 12px;
+    margin-bottom: 18px;
+    margin-top: 45px;
+    text-align: center
 }
 
 .slot-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
+}
+
+.slot-grid p {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 10px;
+    margin: 0;
+    color: #666;
 }
 
 .slot-button {

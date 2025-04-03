@@ -1,3 +1,4 @@
+/* 
 const Doctor = require("../models/doctorModel");
 
 const addDoctor = async (req, res) => {
@@ -20,3 +21,43 @@ const getDoctor = async (req, res) => {
 };
 
 module.exports = { addDoctor, getDoctor };
+*/ 
+
+const createDoctor = async (req, res) => {
+  try {
+    console.log("Incoming doctor data:", req.body);
+    const { name, specialization, gender, timings } = req.body; 
+
+    if (!name || !specialization || !gender) { 
+      return res.status(400).json({ 
+        message: "Name, specialization, and gender are required" 
+      });
+    }
+
+    if (timings && timings.length > 0) {
+      for (const timing of timings) {
+        if (!timing.day || !timing.morningStart || !timing.morningEnd || 
+            !timing.eveningStart || !timing.eveningEnd) {
+          return res.status(400).json({ 
+            message: "All timing fields (day, morningStart, morningEnd, eveningStart, eveningEnd) are required" 
+          });
+        }
+      }
+    }
+
+    const doctor = new Doctor({
+      name,
+      specialization,
+      gender, 
+      timings: timings || []
+    });  
+    await doctor.save();
+    res.status(201).json(doctor);
+  } catch (error) {
+    console.error("Error creating doctor:", error);
+    res.status(500).json({ 
+      message: "Error creating doctor",
+      error: error.message 
+    });
+  }
+};

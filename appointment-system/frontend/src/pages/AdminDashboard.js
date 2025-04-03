@@ -1,10 +1,99 @@
 import React, { useState } from "react"; 
 import "./AdminDashboard.css"; 
-import { FaSave, FaCopy  } from "react-icons/fa"; 
+import { FaSave, FaCopy, FaUserMd } from "react-icons/fa"; 
 import Header from "../components/Header"
 import Sidebar from "../components/Sidebar";
 
+
+const getDateForDay = (dayName) => {
+     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+     const today = new Date();
+     const todayDay = today.getDay(); 
+     const targetDay = days.indexOf(dayName);
+
+      let daysToAdd = targetDay - todayDay;
+      if (daysToAdd < 0) daysToAdd += 7;
+  
+      const targetDate = new Date(today);
+      targetDate.setDate(today.getDate() + daysToAdd);
+      return targetDate.toISOString().split("T")[0];
+};
+
+
 const AdminDashboard = () => { 
+  const [doctorData, setDoctorData] = useState({
+    name: "",
+    specialization: "",
+    gender: "",
+    timings: []
+  }); 
+  const [doctorTimings, setDoctorTimings] = useState({  
+    day: "Monday",                                                                          //default day
+    morningStart: "",
+    morningEnd: "",
+    eveningStart: "",
+    eveningEnd: ""
+  }); 
+
+  const handleDoctorChange = (e) => {
+    const { name, value } = e.target;
+    setDoctorData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+   const handleDoctorTimingChange = (e) => {
+    const { name, value } = e.target;
+    setDoctorTimings(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+const handleDoctorSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const doctorToSave = {
+      name: doctorData.name,
+      specialization: doctorData.specialization, 
+      gender: doctorData.gender,
+      timings: [{
+        day: "General", 
+        morningStart: doctorTimings.morningStart,
+        morningEnd: doctorTimings.morningEnd,
+        eveningStart: doctorTimings.eveningStart,
+        eveningEnd: doctorTimings.eveningEnd
+      }]
+    };
+    console.log("Submitting doctor:", doctorToSave);
+
+    const response = await fetch("http://localhost:5000/api/doctors", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(doctorToSave), 
+    });
+
+    const result = await response.json(); 
+    if (!response.ok) {
+      throw new Error(result.message || "Failed to add doctor");
+    }
+    alert("Doctor added successfully!");
+    setDoctorData({ name: "", specialization: "",  gender: "" });
+    setDoctorTimings({
+      day: "Monday",
+      morningStart: "",
+      morningEnd: "",
+      eveningStart: "",
+      eveningEnd: ""
+    });
+  } catch (error) {
+    console.error("Error adding doctor:", error);
+    alert(`Error adding doctor: ${error.message}`);
+  }
+};
 
      const [timings, setTimings] = useState({                                         //appointment timings for days->stated
         Monday:  { morningStart: "", morningEnd: "", eveningStart: "", eveningEnd: "" },
@@ -59,8 +148,8 @@ const AdminDashboard = () => {
           return;
         }   
         const requestBody = {
-          doctorId: "65f1c29e4f1a2b3c4d5e6f7a",             //dummy 
-          date: new Date().toISOString().split("T")[0],     //current 
+          doctorId: "65f1c29e4f1a2b3c4d5e6f7a",                                            //dummy  
+          date: getDateForDay(day),                                                        //calculated date for the specific day
           availableTimings: { 
             morning: [timings[day].morningStart, timings[day].morningEnd],
             evening: [timings[day].eveningStart, timings[day].eveningEnd],
@@ -255,6 +344,111 @@ const AdminDashboard = () => {
               <button className="save-button">Save</button>
             </form>
         </div>
+
+         <div className="add-doctor-form">  
+          <h2><FaUserMd /> Add Doctor</h2>                  
+          <form onSubmit={handleDoctorSubmit}> 
+            <div className="form-grid">
+              <input 
+                type="text" 
+                name="name" 
+                placeholder="Doctor Name" 
+                className="input-field"
+                value={doctorData.name}
+                onChange={handleDoctorChange}
+                required
+              />
+              
+              <input 
+                type="text" 
+                name="specialization" 
+                placeholder="Specialization" 
+                className="input-field"
+                value={doctorData.specialization}
+                onChange={handleDoctorChange}
+                required
+              />
+   
+            <div className="gender-section">
+            <label>Gender:</label>
+            <label>
+            <input 
+             type="radio" 
+             name="gender" 
+             value="Male" 
+             checked={doctorData.gender === "Male"}
+             onChange={handleDoctorChange}
+            /> Male
+           </label>
+           <label>
+           <input 
+          type="radio" 
+          name="gender" 
+          value="Female" 
+          checked={doctorData.gender === "Female"}
+          onChange={handleDoctorChange}
+           /> Female
+          </label>
+          </div>
+
+          <select
+               name="day"
+               className="input-field"
+               value={doctorTimings.day}
+               onChange={(e) => setDoctorTimings({...doctorTimings, day: e.target.value})}
+             >
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+              <option value="Sunday">Sunday</option>
+             </select>
+
+              <input
+                type="text"
+                name="morningStart"
+                placeholder="Morning Start (e.g., 9:00 AM)"
+                className="input-field"
+                value={doctorTimings.morningStart}
+                onChange={handleDoctorChange}
+              />
+              
+              <input
+                type="text"
+                name="morningEnd"
+                placeholder="Morning End (e.g., 12:00 PM)"
+                className="input-field"
+                value={doctorTimings.morningEnd}
+                onChange={handleDoctorChange}
+              />
+              
+              <input
+                type="text"
+                name="eveningStart"
+                placeholder="Evening Start (e.g., 2:00 PM)"
+                className="input-field"
+                value={doctorTimings.eveningStart}
+                onChange={handleDoctorChange}
+              />
+              
+              <input
+                type="text"
+                name="eveningEnd"
+                placeholder="Evening End (e.g., 6:00 PM)"
+                className="input-field"
+                value={doctorTimings.eveningEnd}
+                onChange={handleDoctorChange}
+              />
+            </div>
+
+            <button className="save-button" type="submit">
+              Save Doctor
+            </button>
+          </form>
+        </div>
+
       </div>
     </div>
      ); 
