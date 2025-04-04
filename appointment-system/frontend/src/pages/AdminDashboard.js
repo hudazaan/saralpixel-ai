@@ -412,7 +412,7 @@ const handleDoctorSubmit = async (e) => {
                 placeholder="Morning Start (e.g., 9:00 AM)"
                 className="input-field"
                 value={doctorTimings.morningStart}
-                onChange={handleDoctorChange}
+                onChange={handleDoctorTimingChange}
               />
               
               <input
@@ -421,7 +421,7 @@ const handleDoctorSubmit = async (e) => {
                 placeholder="Morning End (e.g., 12:00 PM)"
                 className="input-field"
                 value={doctorTimings.morningEnd}
-                onChange={handleDoctorChange}
+                onChange={handleDoctorTimingChange}
               />
               
               <input
@@ -430,7 +430,7 @@ const handleDoctorSubmit = async (e) => {
                 placeholder="Evening Start (e.g., 2:00 PM)"
                 className="input-field"
                 value={doctorTimings.eveningStart}
-                onChange={handleDoctorChange}
+                onChange={handleDoctorTimingChange}
               />
               
               <input
@@ -439,7 +439,7 @@ const handleDoctorSubmit = async (e) => {
                 placeholder="Evening End (e.g., 6:00 PM)"
                 className="input-field"
                 value={doctorTimings.eveningEnd}
-                onChange={handleDoctorChange}
+                onChange={handleDoctorTimingChange}
               />
             </div>
 

@@ -23,6 +23,8 @@ const getDoctor = async (req, res) => {
 module.exports = { addDoctor, getDoctor };
 */ 
 
+const Doctor = require("../models/doctorModel");
+
 const createDoctor = async (req, res) => {
   try {
     console.log("Incoming doctor data:", req.body);
@@ -61,3 +63,14 @@ const createDoctor = async (req, res) => {
     });
   }
 };
+
+const getDoctor = async (req, res) => {
+  try {
+    const doctor = await Doctor.find();
+    res.status(200).json(doctor);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching doctor", error: error.message });
+  }
+};
+
+module.exports = { createDoctor, getDoctor };
