@@ -21,6 +21,7 @@ const createAppointment = async (req, res) => {
   }
 };
 
+/* 10. original controller bydate 
 const getAppointmentsByDate = async (req, res) => {       //date-based fetching 
   try {
     const { date } = req.query;
@@ -47,6 +48,37 @@ const getAppointmentsByDate = async (req, res) => {       //date-based fetching
     res.status(500).json({ message: "Error fetching appointments by date" });
   }
 };
+*/
+
+const getAppointmentsByDate = async (req, res) => {                                                                   // 11. new appointmentController.js
+  try {
+      const { date, type, doctor } = req.query;
+      if (!date) {
+          return res.status(400).json({ message: "Date is required" });
+      }
+      let query = { date }   
+      if (type === "clinic") {
+          query.doctorId = null;
+      } else if (doctor) {
+          query["doctor.name"] = doctor;
+      }
+      const appointments = await Appointment.find(query);
+      if (appointments.length === 0) {
+          return res.status(404).json({ message: "No appointments found" });
+      }
+      const morningTimings = appointments.flatMap(app => app.availableTimings.morning || []);
+      const eveningTimings = appointments.flatMap(app => app.availableTimings.evening || []);
+      res.json({
+          morning: morningTimings,
+          evening: eveningTimings,
+      });
+  } catch (error) {
+      console.error("Error fetching appointments by date:", error);
+      res.status(500).json({ message: "Error fetching appointments by date" });
+  }
+};
+
+
 
 module.exports = { createAppointment, getAppointmentsByDate };
 

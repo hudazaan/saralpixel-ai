@@ -6,14 +6,34 @@ import Sidebar from "../components/Sidebar";
 const Calendar = () => {
 
      const [weekOffset, setWeekOffset] = useState(0); 
-     const [selectedDoctor, setSelectedDoctor] = useState("");                                       //managing component state (selected doctor-> stated for tracking?)                                                                          
-     const doctors = [
+     const [selectedDoctor, setSelectedDoctor] = useState("");                                        //managing component state (selected doctor-> stated for tracking?)                                                                          
+     const [doctors, setDoctors] = useState([]);                                                     //1. changed from static array to state
+     const [showClinicTimings, setShowClinicTimings] = useState(false);                             //5. new state for clinic timings
+     /*2. const doctors = [
          { id: 1, name: "Dr. Ahmad" },
          { id: 2, name: "Dr. Amar" },
-     ];
- 
+     ]; */
+                                                                           
+    useEffect(() => {                                                                         //3. useEffect to fetch doctors when component mounts
+      const fetchDoctors = async () => {            
+          try {
+              const response = await fetch("http://localhost:5000/api/doctors");
+              if (response.ok) {
+                  const data = await response.json();
+                    setDoctors(data);
+                    } else {
+                    console.error("Failed to fetch doctors");
+                    }
+                } catch (error) {
+                    console.error("Error fetching doctors:", error);
+                }
+            };
+            fetchDoctors();
+        }, []);
+
      const handleDoctorChange = (e) => {                                                            //select from dropdown-> updated 
          setSelectedDoctor(e.target.value); 
+         setShowClinicTimings(e.target.value === "clinic");                                        //6. show clinic timings if clinic option selected
      };
 
     const getCurrentWeekDates = (offset = 0) => {
@@ -59,7 +79,7 @@ const Calendar = () => {
     return () => clearInterval(interval);
    }, []);
 
-
+ /* 8. original useeffect
      useEffect(() => {                                                                           //fetching data on state change (selected date changes-> fetch appointment time from Api) 
        if (selectedDate) { 
          fetch(`http://localhost:5000/api/appointments/by-date?date=${selectedDate}`) 
@@ -70,12 +90,31 @@ const Calendar = () => {
            })
            .catch(error => console.error("Error fetching appointments:", error));
        }
-     }, [selectedDate]); 
-
+     }, [selectedDate]);   */
+      
      const handleDateClick = (index) => {                                                        //selected date index-> updated  
       setSelectedDay(index); 
       setSelectedDate(days[index].date); 
-    };
+    };  
+
+    useEffect(() => {                                                                            //9. new use effect                                                            
+      if (selectedDate) { 
+          let url = `http://localhost:5000/api/appointments/by-date?date=${selectedDate}`;
+          if (showClinicTimings) {
+              url += "&type=clinic";
+          } 
+          else if (selectedDoctor) {
+              url += `&doctor=${selectedDoctor}`;
+          }
+          fetch(url)
+              .then(response => response.json())
+              .then(data => {
+                  console.log("Fetched data:", data); 
+                  setAvailableTimings(data);
+              })
+              .catch(error => console.error("Error fetching appointments:", error));
+      }
+  }, [selectedDate, selectedDoctor, showClinicTimings]); 
 
     return(
         
@@ -87,15 +126,14 @@ const Calendar = () => {
                 <div className="doctors-dropdown">
                     <h2>Select Doctor</h2>               
                     <select value={selectedDoctor} onChange={handleDoctorChange} className="doctor-select">                              {/*updated on selected change */}
-                        <option value="">Select a doctor</option>
+                        <option value="clinic">Clinic's OPD Timings</option>                      {/*7. clinic inside empty value="", Clinic's OPD Timings instead of Select a doctor */} 
                               {doctors.map((doctor) => (                                          //iterating over doctors list available-> generate option element of list  
-                        <option key={doctor.id} value={doctor.name}>                              {/*value set-> to doctor name */}
+                        <option key={doctor._id} value={doctor.name}>                             {/*4. changed doctor.id to doctor._id */}  {/*value set-> to doctor name */}
                               {doctor.name}                                                       {/*display in dropdown*/}
                         </option> 
                                ))}
                     </select>
                 </div>
-
 
             <div className="calendar-board">
                 <div className="week-navigation">
